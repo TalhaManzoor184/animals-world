@@ -58,11 +58,29 @@ def fit(img: Image.Image) -> Image.Image:
     return ImageOps.fit(img.convert("RGB"), (W, H), Image.LANCZOS, centering=(0.5, 0.4))
 
 
-def load(cls):
+EMBEDS = {}
+
+
+def load(cls, shots):
+    """Load the pipeline, encode every prompt for these shots, then DROP the ~11 GB text encoder.
+    Keeping it in RAM next to the transformer got the process OOM-killed on Kaggle (~29 GB RAM)."""
     vae = AutoencoderKLWan.from_pretrained(MODEL, subfolder="vae", torch_dtype=torch.float32)
     pipe = cls.from_pretrained(MODEL, vae=vae, torch_dtype=DTYPE)
+    pipe.text_encoder.to("cuda")
+    with torch.no_grad():
+        for s in shots:
+            pe, ne = pipe.encode_prompt(prompt=s["prompt"], negative_prompt=NEG,
+                                        do_classifier_free_guidance=GUIDE > 1.0, num_videos_per_prompt=1,
+                                        max_sequence_length=512, device=torch.device("cuda"))
+            EMBEDS[s["n"]] = (pe.to("cpu"), ne.to("cpu") if ne is not None else None)
+    te = pipe.text_encoder
+    pipe.register_modules(text_encoder=None)
+    del te
+    gc.collect()
+    torch.cuda.empty_cache()
+    print(f"encoded {len(shots)} prompts; text encoder released", flush=True)
     pipe.enable_model_cpu_offload()
-    for m in ("enable_tiling", "enable_slicing"):        # avoids the VRAM spike at VAE decode
+    for m in ("enable_tiling", "enable_slicing"):        # avoids the memory spike at VAE decode
         try:
             getattr(pipe.vae, m)()
         except Exception:
@@ -77,13 +95,17 @@ def frames_ok(frames) -> bool:
 
 
 def render(pipe, shot, use_image: bool):
-    kw = dict(prompt=shot["prompt"], negative_prompt=NEG, height=H, width=W, num_frames=int(shot["frames"]),
+    pe, ne = EMBEDS[shot["n"]]
+    kw = dict(prompt_embeds=pe.to("cuda"), negative_prompt_embeds=ne.to("cuda") if ne is not None else None,
+              height=H, width=W, num_frames=int(shot["frames"]),
               guidance_scale=GUIDE, num_inference_steps=STEPS,
               generator=torch.Generator("cpu").manual_seed(int(shot.get("seed", 42))))
     if use_image:
         kw["image"] = fit(Image.open(os.path.join(BASE, shot["image"])))
     t0 = time.time()
     frames = pipe(**kw).frames[0]
+    del kw
+    gc.collect()
     if not frames_ok(frames):
         raise RuntimeError("blank/NaN frames (fp16 overflow?)")
     path = f"{OUT}/shot_{shot['n']:02d}.mp4"
@@ -99,7 +121,7 @@ for kind, cls, use_image in (("portrait", WanImageToVideoPipeline, True), ("acti
     shots = [s for s in job["shots"] if s["kind"] == kind]
     if not shots:
         continue
-    pipe = load(cls)
+    pipe = load(cls, shots)
     for s in shots:
         for attempt in range(2):
             try:
