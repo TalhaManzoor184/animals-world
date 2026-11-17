@@ -1,0 +1,327 @@
+{
+  "id": "EP001",
+  "slug": "operation_watermelon",
+  "title": "Operation Watermelon",
+  "category": "Food stealing + unexpected plot twist",
+  "main_character": "milo",
+  "supporting": [
+    "bruno",
+    "rocky",
+    "chiku",
+    "ducky"
+  ],
+  "target_duration_s": 33,
+  "concept": {
+    "story": "Milo leads a spy-style heist to grab a giant watermelon from the farm picnic table. Bruno blows their cover, Rocky takes over to 'show the professionals' and knocks the watermelon off the table, and Chiku panics as it rolls away. It cracks open right in front of Ducky, who thanks everyone for the delivery.",
+    "hook": "Extreme close-up of Milo in sunglasses peeking over a hay bale, whispering the mission name.",
+    "comedy_moment": "Rocky's cool strut ends with his sunglasses slipping and a gentle bump that sends the watermelon rolling across the yard.",
+    "punchline": "The watermelon cracks open at Ducky's feet: 'Thanks for the delivery!' Milo slowly lowers his sunglasses in disbelief.",
+    "viral_notes": "Heist parody that reads instantly, visual twist that works on mute, and a loopable ending (Milo's stare leads back into his opening whisper)."
+  },
+  "music": {
+    "brief": "Light comedic 'sneaky spy' pizzicato loop for clips 1-2, a quick rise for clip 3, a stop-down beat on the punchline, then a tiny comedic sting under the Milo stare.",
+    "file": "assets/music/sneaky_pizzicato.mp3",
+    "volume_db": -20,
+    "source_rule": "Royalty-free only (YouTube Audio Library, or a track you own). Never commercial songs."
+  },
+  "scenes": [
+    {
+      "n": 1,
+      "beat": "HOOK: the plan",
+      "cast": [
+        "milo"
+      ],
+      "clip_seconds": 4.375,
+      "use": [
+        0.0,
+        4.325
+      ],
+      "dialogue": [
+        {
+          "speaker": "milo",
+          "line": "Team. Operation Watermelon... starts now.",
+          "emotion": "whispered, dramatic, secret-agent",
+          "at": [
+            0.25,
+            4.025
+          ]
+        }
+      ],
+      "punch": []
+    },
+    {
+      "n": 2,
+      "beat": "HOOK: the plan",
+      "cast": [
+        "bruno"
+      ],
+      "clip_seconds": 2.2083333333333335,
+      "use": [
+        0.0,
+        2.15
+      ],
+      "dialogue": [
+        {
+          "speaker": "bruno",
+          "line": "YES, BOSS!",
+          "emotion": "way too loud, happy",
+          "at": [
+            0.25,
+            1.85
+          ]
+        }
+      ],
+      "punch": []
+    },
+    {
+      "n": 3,
+      "beat": "HOOK: the plan",
+      "cast": [
+        "milo"
+      ],
+      "clip_seconds": 2.5416666666666665,
+      "use": [
+        0.0,
+        2.425
+      ],
+      "dialogue": [
+        {
+          "speaker": "milo",
+          "line": "Shhh!",
+          "emotion": "sharp, annoyed whisper",
+          "at": [
+            0.25,
+            2.125
+          ]
+        }
+      ],
+      "punch": []
+    },
+    {
+      "n": 4,
+      "beat": "SETUP: the professional",
+      "cast": [
+        "rocky"
+      ],
+      "clip_seconds": 4.708333333333333,
+      "use": [
+        0.0,
+        4.6
+      ],
+      "dialogue": [
+        {
+          "speaker": "rocky",
+          "line": "Step aside, amateurs. Watch a professional.",
+          "emotion": "deep, smug, dramatic",
+          "at": [
+            0.25,
+            4.3
+          ]
+        }
+      ],
+      "punch": []
+    },
+    {
+      "n": 5,
+      "beat": "SETUP: the professional",
+      "cast": [],
+      "clip_seconds": 3.375,
+      "use": [
+        0.0,
+        3.375
+      ],
+      "dialogue": []
+    },
+    {
+      "n": 6,
+      "beat": "CONFLICT: the watermelon escapes",
+      "cast": [],
+      "clip_seconds": 3.375,
+      "use": [
+        0.0,
+        3.375
+      ],
+      "dialogue": []
+    },
+    {
+      "n": 7,
+      "beat": "CONFLICT: the watermelon escapes",
+      "cast": [
+        "chiku"
+      ],
+      "clip_seconds": 2.5416666666666665,
+      "use": [
+        0.0,
+        2.475
+      ],
+      "dialogue": [
+        {
+          "speaker": "chiku",
+          "line": "THE WATERMELON IS ESCAPING!",
+          "emotion": "loud, panicked, dramatic",
+          "at": [
+            0.25,
+            2.175
+          ]
+        }
+      ],
+      "punch": []
+    },
+    {
+      "n": 8,
+      "beat": "PUNCHLINE: the delivery",
+      "cast": [],
+      "clip_seconds": 3.375,
+      "use": [
+        0.0,
+        3.375
+      ],
+      "dialogue": []
+    },
+    {
+      "n": 9,
+      "beat": "PUNCHLINE: the delivery",
+      "cast": [
+        "ducky"
+      ],
+      "clip_seconds": 2.375,
+      "use": [
+        0.0,
+        2.3
+      ],
+      "dialogue": [
+        {
+          "speaker": "ducky",
+          "line": "Ooh! Thanks for the delivery!",
+          "emotion": "delighted, high energy",
+          "at": [
+            0.25,
+            2.0
+          ],
+          "highlight": true
+        }
+      ],
+      "punch": [
+        [
+          0.25,
+          2.3,
+          1.12
+        ]
+      ]
+    },
+    {
+      "n": 10,
+      "beat": "TAG: Milo's stare (loop point)",
+      "cast": [
+        "bruno"
+      ],
+      "clip_seconds": 2.5416666666666665,
+      "use": [
+        0.0,
+        2.525
+      ],
+      "dialogue": [
+        {
+          "speaker": "bruno",
+          "line": "...Mission success?",
+          "emotion": "innocent, unsure",
+          "at": [
+            0.25,
+            2.225
+          ]
+        }
+      ],
+      "punch": []
+    },
+    {
+      "n": 11,
+      "beat": "TAG: Milo's stare (loop point)",
+      "cast": [],
+      "clip_seconds": 3.375,
+      "use": [
+        0.0,
+        3.375
+      ],
+      "dialogue": []
+    }
+  ],
+  "edit": {
+    "transitions": "hard cuts only; a 4-frame white flash before scene 4 to sell the crack",
+    "zoom_effects": "Driven by each scene's 'punch' list: [start, end, zoom] in clip seconds",
+    "captions": "word-chunked, white bold with black outline, centred in the lower-middle safe area (Shorts UI-safe), the punchline line in yellow",
+    "punchline_emphasis": "duck the music to silence for 0.5s before 'Thanks for the delivery!'",
+    "export": {
+      "width": 1080,
+      "height": 1920,
+      "fps": 30,
+      "vcodec": "libx264",
+      "crf": 18,
+      "acodec": "aac",
+      "abitrate": "192k"
+    }
+  },
+  "thumbnail": {
+    "prompt": "Photorealistic vertical shot: Milo the orange tabby cat in black sunglasses and red hoodie in the foreground with a shocked open mouth, behind him a giant cracked-open watermelon with Ducky the white duck in sunglasses happily sitting on it. Bright saturated farm afternoon, cinematic, sharp focus on faces.",
+    "overlay_text": "HE STOLE IT 😳",
+    "cast": [
+      "milo",
+      "ducky"
+    ]
+  },
+  "metadata": {
+    "youtube": {
+      "title": "The Cat Planned the Perfect Watermelon Heist… 🍉😂 #shorts",
+      "description": "Milo had ONE job: Operation Watermelon. Then Bruno got excited, Rocky tried to be cool, and Chiku lost his mind. 😂\n\nWho really won this heist? Tell us in the comments 👇\n\n🐱 Milo, the boss | 🐶 Bruno, the best friend | 🐐 Rocky, the 'professional' | 🐔 Chiku, the drama | 🦆 Ducky, the lucky one\n\nNew funny animal shorts every day. Subscribe for the squad! 🐾\n\n#funnyanimals #funnycat #animalcomedy #shorts",
+      "hashtags": [
+        "#shorts",
+        "#funnyanimals",
+        "#funnycat",
+        "#animalcomedy",
+        "#funnyvideos"
+      ],
+      "tags": [
+        "funny animals",
+        "funny cat",
+        "talking animals",
+        "animal comedy",
+        "cat heist",
+        "funny goat",
+        "funny duck",
+        "golden retriever funny",
+        "watermelon",
+        "funny shorts",
+        "AI animals",
+        "cat and dog"
+      ],
+      "pinned_comment": "Be honest… whose fault was it? 🐶 Bruno, 🐐 Rocky or 🐔 Chiku? 👇",
+      "thumbnail_concept": "Milo shocked in the foreground, Ducky sitting on a cracked watermelon behind; big text 'HE STOLE IT 😳'"
+    },
+    "instagram": {
+      "caption": "Operation Watermelon: 0% success, 100% Ducky 🍉🦆\n\nMilo had the perfect plan… his team did not. 😂",
+      "hashtags": [
+        "#funnyanimals",
+        "#catsofinstagram",
+        "#funnycats",
+        "#animalcomedy",
+        "#reels",
+        "#funnyreels",
+        "#talkinganimals",
+        "#goat",
+        "#duck"
+      ],
+      "engagement_question": "Which one of your friends is Bruno? Tag them 😂"
+    },
+    "facebook": {
+      "caption": "The cat had a plan. The team had other ideas. 🍉😂",
+      "hashtags": [
+        "#funnyanimals",
+        "#funnycats",
+        "#animalcomedy",
+        "#reels"
+      ],
+      "engagement_question": "Who ruined the heist: Bruno, Rocky or Chiku?"
+    }
+  },
+  "ai_disclosure": "Contains realistic AI-generated animals. On YouTube, tick 'Altered or synthetic content' when uploading.",
+  "production": "free"
+}

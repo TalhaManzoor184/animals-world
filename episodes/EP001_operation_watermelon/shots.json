@@ -1,0 +1,168 @@
+[
+  {
+    "kind": "portrait",
+    "beat": "HOOK: the plan",
+    "speaker": "milo",
+    "dialogue": {
+      "speaker": "milo",
+      "line": "Team. Operation Watermelon... starts now.",
+      "emotion": "whispered, dramatic, secret-agent",
+      "at": [
+        0.4,
+        3.6
+      ]
+    },
+    "image_src": "references/characters/milo_crop.png",
+    "prompt": "Photorealistic close-up of Milo, orange tabby cat with subtle darker orange stripes, white muzzle and chin, large expressive amber eyes, wearing black rectangular sunglasses and a plain red hoodie with white drawstrings. The orange tabby cat looks into the camera and talks with a whispered, dramatic, secret-agent expression, mouth moving naturally as if speaking, subtle head and ear movement, blinking. Keep the face, fur colours, clothing and accessories exactly the same. Slow gentle camera push-in. Ultra-realistic animal photography, cinematic lighting, detailed fur and feathers, realistic eyes, natural shadows, shot on a professional full-frame camera, shallow depth of field, expressive animal faces, rich environmental detail, vertical 9:16 composition.",
+    "n": 1,
+    "seed": 1001,
+    "frames": 105
+  },
+  {
+    "kind": "portrait",
+    "beat": "HOOK: the plan",
+    "speaker": "bruno",
+    "dialogue": {
+      "speaker": "bruno",
+      "line": "YES, BOSS!",
+      "emotion": "way too loud, happy",
+      "at": [
+        4.2,
+        5.4
+      ]
+    },
+    "image_src": "references/characters/bruno_crop.png",
+    "prompt": "Photorealistic close-up of Bruno, golden retriever with fluffy golden fur, big happy brown eyes, wearing a blue baseball cap turned backwards and a blue bandana with white paw prints tied around the neck. The golden retriever looks into the camera and talks with a way too loud, happy expression, mouth moving naturally as if speaking, subtle head and ear movement, blinking. Keep the face, fur colours, clothing and accessories exactly the same. Slow gentle camera push-in. Ultra-realistic animal photography, cinematic lighting, detailed fur and feathers, realistic eyes, natural shadows, shot on a professional full-frame camera, shallow depth of field, expressive animal faces, rich environmental detail, vertical 9:16 composition.",
+    "n": 2,
+    "seed": 1002,
+    "frames": 53
+  },
+  {
+    "kind": "portrait",
+    "beat": "HOOK: the plan",
+    "speaker": "milo",
+    "dialogue": {
+      "speaker": "milo",
+      "line": "Shhh!",
+      "emotion": "sharp, annoyed whisper",
+      "at": [
+        5.9,
+        6.8
+      ]
+    },
+    "image_src": "references/characters/milo_crop.png",
+    "prompt": "Photorealistic close-up of Milo, orange tabby cat with subtle darker orange stripes, white muzzle and chin, large expressive amber eyes, wearing black rectangular sunglasses and a plain red hoodie with white drawstrings. The orange tabby cat looks into the camera and talks with a sharp, annoyed whisper expression, mouth moving naturally as if speaking, subtle head and ear movement, blinking. Keep the face, fur colours, clothing and accessories exactly the same. Slow gentle camera push-in. Ultra-realistic animal photography, cinematic lighting, detailed fur and feathers, realistic eyes, natural shadows, shot on a professional full-frame camera, shallow depth of field, expressive animal faces, rich environmental detail, vertical 9:16 composition.",
+    "n": 3,
+    "seed": 1003,
+    "frames": 61
+  },
+  {
+    "kind": "portrait",
+    "beat": "SETUP: the professional",
+    "speaker": "rocky",
+    "dialogue": {
+      "speaker": "rocky",
+      "line": "Step aside, amateurs. Watch a professional.",
+      "emotion": "deep, smug, dramatic",
+      "at": [
+        0.3,
+        3.4
+      ]
+    },
+    "image_src": "references/characters/rocky_crop.png",
+    "prompt": "Photorealistic close-up of Rocky, white goat with curved grey-brown horns and a pink nose, wearing black sunglasses, a black t-shirt and a thick gold chain necklace. The white goat looks into the camera and talks with a deep, smug, dramatic expression, mouth moving naturally as if speaking, subtle head and ear movement, blinking. Keep the face, fur colours, clothing and accessories exactly the same. Slow gentle camera push-in. Ultra-realistic animal photography, cinematic lighting, detailed fur and feathers, realistic eyes, natural shadows, shot on a professional full-frame camera, shallow depth of field, expressive animal faces, rich environmental detail, vertical 9:16 composition.",
+    "n": 4,
+    "seed": 1004,
+    "frames": 113
+  },
+  {
+    "kind": "action",
+    "beat": "SETUP: the professional",
+    "prompt": "Photorealistic cinematic vertical video. Rocky the white goat with curved grey-brown horns and a pink nose, wearing black sunglasses, a black t-shirt and a thick gold chain necklace, Milo the orange tabby cat with subtle darker orange stripes, white muzzle and chin, large expressive amber eyes, wearing black rectangular sunglasses and a plain red hoodie with white drawstrings. Rocky turns his head toward Milo and speaks, then struts in slow motion toward the picnic table with exaggerated swagger, his gold chain swinging; in the background Milo slowly turns his face to the camera with a deadpan look. Setting: same sunny farmyard; the wooden picnic table with the giant watermelon clearly visible in the mid-ground behind Rocky. Lighting: warm golden-hour sunlight from the left, long soft shadows on the grass. Camera: slow tracking shot following Rocky from behind as he walks toward the table. Ultra-realistic animal photography, cinematic lighting, detailed fur and feathers, realistic eyes, natural shadows, shot on a professional full-frame camera, shallow depth of field, expressive animal faces, rich environmental detail, vertical 9:16 composition. Natural animal movement, one continuous shot.",
+    "n": 5,
+    "seed": 1005,
+    "frames": 81
+  },
+  {
+    "kind": "action",
+    "beat": "CONFLICT: the watermelon escapes",
+    "prompt": "Photorealistic cinematic vertical video. Rocky the white goat with curved grey-brown horns and a pink nose, wearing black sunglasses, a black t-shirt and a thick gold chain necklace, Chiku the orange-red rooster with bright glossy orange-red feathers, a tall red comb and red wattles, wearing black sunglasses and a gold chain necklace. Rocky flicks his head in a cool pose, his sunglasses slip down his nose and he leans to catch them, gently nudging the table with his shoulder; the watermelon wobbles, drops softly onto the grass and starts rolling down the slope; Rocky freezes with an open-mouthed stare; on the fence Chiku flaps his wings wildly and screams. Setting: the picnic table on a gentle grassy slope that runs down toward a small pond area. Lighting: bright warm afternoon sun, crisp shadows. Camera: quick pan right following the rolling watermelon. Ultra-realistic animal photography, cinematic lighting, detailed fur and feathers, realistic eyes, natural shadows, shot on a professional full-frame camera, shallow depth of field, expressive animal faces, rich environmental detail, vertical 9:16 composition. Natural animal movement, one continuous shot.",
+    "n": 6,
+    "seed": 1006,
+    "frames": 81
+  },
+  {
+    "kind": "portrait",
+    "beat": "CONFLICT: the watermelon escapes",
+    "speaker": "chiku",
+    "dialogue": {
+      "speaker": "chiku",
+      "line": "THE WATERMELON IS ESCAPING!",
+      "emotion": "loud, panicked, dramatic",
+      "at": [
+        4.0,
+        6.6
+      ]
+    },
+    "image_src": "references/characters/chiku_crop.png",
+    "prompt": "Photorealistic close-up of Chiku, orange-red rooster with bright glossy orange-red feathers, a tall red comb and red wattles, wearing black sunglasses and a gold chain necklace. The orange-red rooster looks into the camera and talks with a loud, panicked, dramatic expression, mouth moving naturally as if speaking, subtle head and ear movement, blinking. Keep the face, fur colours, clothing and accessories exactly the same. Slow gentle camera push-in. Ultra-realistic animal photography, cinematic lighting, detailed fur and feathers, realistic eyes, natural shadows, shot on a professional full-frame camera, shallow depth of field, expressive animal faces, rich environmental detail, vertical 9:16 composition.",
+    "n": 7,
+    "seed": 1007,
+    "frames": 61
+  },
+  {
+    "kind": "action",
+    "beat": "PUNCHLINE: the delivery",
+    "prompt": "Photorealistic cinematic vertical video. Ducky the white Pekin duck with clean white feathers and a bright orange beak, wearing black sunglasses and a gold chain necklace. the watermelon rolls into the small rock and cracks open neatly into two halves showing bright red flesh, right in front of Ducky; Ducky slowly lowers his sunglasses, looks at the watermelon, grins widely and speaks happily, then takes a little peck of the red fruit. Setting: bottom of the grassy slope near a little pond with reeds, wildflowers around. Lighting: warm afternoon sun, soft highlights on white feathers. Camera: slow push-in on Ducky. Ultra-realistic animal photography, cinematic lighting, detailed fur and feathers, realistic eyes, natural shadows, shot on a professional full-frame camera, shallow depth of field, expressive animal faces, rich environmental detail, vertical 9:16 composition. Natural animal movement, one continuous shot.",
+    "n": 8,
+    "seed": 1008,
+    "frames": 81
+  },
+  {
+    "kind": "portrait",
+    "beat": "PUNCHLINE: the delivery",
+    "speaker": "ducky",
+    "dialogue": {
+      "speaker": "ducky",
+      "line": "Ooh! Thanks for the delivery!",
+      "emotion": "delighted, high energy",
+      "at": [
+        3.0,
+        5.2
+      ],
+      "highlight": true
+    },
+    "image_src": "references/characters/ducky_crop.png",
+    "prompt": "Photorealistic close-up of Ducky, white Pekin duck with clean white feathers and a bright orange beak, wearing black sunglasses and a gold chain necklace. The white duck looks into the camera and talks with a delighted, high energy expression, mouth moving naturally as if speaking, subtle head and ear movement, blinking. Keep the face, fur colours, clothing and accessories exactly the same. Slow gentle camera push-in. Ultra-realistic animal photography, cinematic lighting, detailed fur and feathers, realistic eyes, natural shadows, shot on a professional full-frame camera, shallow depth of field, expressive animal faces, rich environmental detail, vertical 9:16 composition.",
+    "n": 9,
+    "seed": 1009,
+    "frames": 57
+  },
+  {
+    "kind": "portrait",
+    "beat": "TAG: Milo's stare (loop point)",
+    "speaker": "bruno",
+    "dialogue": {
+      "speaker": "bruno",
+      "line": "...Mission success?",
+      "emotion": "innocent, unsure",
+      "at": [
+        1.8,
+        3.4
+      ]
+    },
+    "image_src": "references/characters/bruno_crop.png",
+    "prompt": "Photorealistic close-up of Bruno, golden retriever with fluffy golden fur, big happy brown eyes, wearing a blue baseball cap turned backwards and a blue bandana with white paw prints tied around the neck. The golden retriever looks into the camera and talks with a innocent, unsure expression, mouth moving naturally as if speaking, subtle head and ear movement, blinking. Keep the face, fur colours, clothing and accessories exactly the same. Slow gentle camera push-in. Ultra-realistic animal photography, cinematic lighting, detailed fur and feathers, realistic eyes, natural shadows, shot on a professional full-frame camera, shallow depth of field, expressive animal faces, rich environmental detail, vertical 9:16 composition.",
+    "n": 10,
+    "seed": 1010,
+    "frames": 61
+  },
+  {
+    "kind": "action",
+    "beat": "TAG: Milo's stare (loop point)",
+    "prompt": "Photorealistic cinematic vertical video. Milo the orange tabby cat with subtle darker orange stripes, white muzzle and chin, large expressive amber eyes, wearing black rectangular sunglasses and a plain red hoodie with white drawstrings, Bruno the golden retriever with fluffy golden fur, big happy brown eyes, wearing a blue baseball cap turned backwards and a blue bandana with white paw prints tied around the neck. Milo very slowly lowers his sunglasses with one paw and stares straight into the camera without blinking; Bruno tilts his head and asks his question. Setting: top of the grassy slope, picnic table behind them with nothing on it. Lighting: warm afternoon sun, slight backlight. Camera: fast dramatic zoom-in on Milo's face. Ultra-realistic animal photography, cinematic lighting, detailed fur and feathers, realistic eyes, natural shadows, shot on a professional full-frame camera, shallow depth of field, expressive animal faces, rich environmental detail, vertical 9:16 composition. Natural animal movement, one continuous shot.",
+    "n": 11,
+    "seed": 1011,
+    "frames": 81
+  }
+]
