@@ -148,7 +148,20 @@ def fb_reel(video: Path, description: str) -> str | None:
     _check(requests.post(f"{GRAPH}/{page}/video_reels", data={
         "upload_phase": "finish", "video_id": vid, "video_state": "PUBLISHED",
         "description": description, "access_token": tok}, timeout=TIMEOUT), "Facebook reel publish")
-    print(f"  ✔ Facebook reel: {vid}")
+    # Facebook processes the reel asynchronously; confirm it actually went live (or surface the error).
+    t0 = time.time()
+    while time.time() - t0 < 600:
+        st = _check(requests.get(f"{GRAPH}/{vid}", params={"fields": "status", "access_token": tok}, timeout=TIMEOUT),
+                    "Facebook reel status").get("status", {})
+        phases = {k: (v or {}).get("status") for k, v in st.items() if isinstance(v, dict)}
+        if st.get("video_status") == "error" or "error" in phases.values():
+            raise PublishError(f"Facebook reel processing failed: {json.dumps(st)[:600]}")
+        if st.get("video_status") == "ready" and phases.get("publishing_phase") in (None, "complete"):
+            break
+        time.sleep(15)
+    else:
+        print("  ! Facebook reel still processing after 10 min (it usually finishes on its own)")
+    print(f"  ✔ Facebook reel: https://www.facebook.com/reel/{vid}")
     return vid
 
 
@@ -211,3 +224,75 @@ def ig_reel(video: Path, caption: str) -> str | None:
     mid = _ig_wait_and_publish(cfg, c["id"], "reel", max_wait=900)
     print(f"  ✔ Instagram reel: {mid}")
     return mid
+
+
+# ================================================================= setup check (posts nothing)
+def check() -> bool:
+    ok = True
+
+    def show(name, fn):
+        nonlocal ok
+        try:
+            print(f"  ✔ {name}: {fn()}")
+        except Exception as e:  # noqa: BLE001
+            ok = False
+            print(f"  ✖ {name}: {e}")
+
+    fb = _env("FB_PAGE_ID", "FB_PAGE_TOKEN")
+    if fb:
+        tok, page = fb["FB_PAGE_TOKEN"], fb["FB_PAGE_ID"]
+
+        def token_info():
+            d = _check(requests.get(f"{GRAPH}/debug_token", params={"input_token": tok, "access_token": tok},
+                                    timeout=TIMEOUT), "debug_token")["data"]
+            need = {"pages_manage_posts", "pages_read_engagement", "pages_show_list"}
+            missing = need - set(d.get("scopes", []))
+            exp = d.get("expires_at", 0)
+            if d.get("type") != "PAGE":
+                raise PublishError(f"token type is {d.get('type')}, must be a PAGE access token")
+            if missing:
+                raise PublishError(f"missing permissions: {sorted(missing)}")
+            return (f"PAGE token, valid={d.get('is_valid')}, expires="
+                    f"{'never' if not exp else time.strftime('%Y-%m-%d', time.gmtime(exp))}, scopes ok")
+
+        def page_info():
+            d = _check(requests.get(f"{GRAPH}/{page}", params={"fields": "name,instagram_business_account{id,username}",
+                                                                 "access_token": tok}, timeout=TIMEOUT), "page lookup")
+            ig = d.get("instagram_business_account") or {}
+            want = os.getenv("IG_USER_ID", "")
+            note = ""
+            if want and ig.get("id") and want != ig["id"]:
+                note = f"  ⚠ IG_USER_ID secret ({want}) ≠ linked account ({ig['id']})"
+            return f"Page '{d.get('name')}', linked Instagram: @{ig.get('username', 'NONE')} ({ig.get('id', '-')}){note}"
+
+        show("Facebook token", token_info)
+        show("Facebook page", page_info)
+    else:
+        print("  • Facebook: FB_PAGE_ID / FB_PAGE_TOKEN not set")
+    yt = _env("YT_CLIENT_ID", "YT_CLIENT_SECRET", "YT_REFRESH_TOKEN")
+    if yt:
+        def channel():
+            tok = _check(requests.post("https://oauth2.googleapis.com/token", data={
+                "client_id": yt["YT_CLIENT_ID"], "client_secret": yt["YT_CLIENT_SECRET"],
+                "refresh_token": yt["YT_REFRESH_TOKEN"], "grant_type": "refresh_token"}, timeout=TIMEOUT),
+                "token refresh")
+            scopes = tok.get("scope", "")
+            if "youtube.upload" not in scopes and "auth/youtube " not in scopes + " ":
+                raise PublishError(f"refresh token lacks youtube.upload scope (has: {scopes})")
+            r = requests.get("https://www.googleapis.com/youtube/v3/channels", params={"part": "snippet", "mine": "true"},
+                             headers={"Authorization": f"Bearer {tok['access_token']}"}, timeout=TIMEOUT)
+            if r.status_code == 403:  # upload-only scope cannot read the channel; that's fine
+                return "token works (upload scope)"
+            items = _check(r, "channel lookup").get("items", [])
+            return f"channel '{items[0]['snippet']['title']}'" if items else "token works, no channel found"
+        show("YouTube", channel)
+    else:
+        print("  • YouTube: YT_* secrets not set")
+    return ok
+
+
+if __name__ == "__main__":
+    import sys
+    if sys.argv[1:] == ["check"]:
+        print("Publishing setup check (nothing is posted):")
+        sys.exit(0 if check() else 1)

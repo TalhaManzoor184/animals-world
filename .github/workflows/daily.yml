@@ -25,7 +25,7 @@ on:
         description: "What to run now"
         type: choice
         default: kickoff
-        options: [kickoff, reel, post, story, all, status]
+        options: [kickoff, reel, post, story, all, status, check]
 
 permissions:
   contents: write
@@ -118,7 +118,11 @@ jobs:
           mkdir -p runs
           W="${{ steps.pick.outputs.what }}"
           set -o pipefail
-          if [ "$W" = "status" ]; then CMD="python pipeline/free_mode.py status"; else CMD="python pipeline/daily.py $W"; fi
+          case "$W" in
+            status) CMD="python pipeline/free_mode.py status" ;;
+            check)  CMD="python pipeline/publish.py check" ;;
+            *)      CMD="python pipeline/daily.py $W" ;;
+          esac
           $CMD 2>&1 | tee "runs/latest-$W.log"
 
       - name: Keep test outputs in the repo (test dates only)
