@@ -424,7 +424,20 @@ def main():
     if a.cmd == "kickoff":
         print(json.dumps(kickoff(a.ep)))
     elif a.cmd == "status":
-        print(status())
+        st = status()
+        print(f"Kaggle kernel status: {st}")
+        tmp = Path(tempfile.mkdtemp(prefix="kst_"))
+        kaggle("kernels", "output", f"{kaggle_user()}/{KERNEL_SLUG}", "-p", str(tmp), check=False)
+        for f in tmp.rglob("done.json"):
+            print("done.json:", f.read_text()[:1500])
+        for f in tmp.rglob("*.log"):
+            txt = f.read_text(errors="replace")
+            try:  # Kaggle logs are JSON lines [{"stream_name","data"}]
+                txt = "".join(x.get("data", "") for x in json.loads(txt))
+            except Exception:
+                pass
+            print(f"--- {f.name} (last 60 lines) ---")
+            print("\n".join(txt.splitlines()[-60:]))
     elif a.cmd == "shots":  # local dry run: shot list + voices, no Kaggle
         ep, d = studio.load_ep(a.ep)
         build_free_episode(ep, d, build_shots(ep))
