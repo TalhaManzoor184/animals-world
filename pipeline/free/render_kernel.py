@@ -21,7 +21,8 @@ import traceback
 
 subprocess.run([sys.executable, "-m", "pip", "install", "-q", "-U", "diffusers>=0.35.0", "transformers>=4.51",
                 "accelerate", "ftfy", "imageio", "imageio-ffmpeg", "sentencepiece"], check=True)
-os.environ.setdefault("HF_HOME", "/tmp/hf")  # /kaggle/working is only ~20 GB; weights go to /tmp
+os.environ.setdefault("HF_HOME", "/tmp/hf")
+os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")  # shots 1/4 OOM'd from fragmentation  # /kaggle/working is only ~20 GB; weights go to /tmp
 
 import torch  # noqa: E402
 from diffusers import AutoencoderKLWan, WanImageToVideoPipeline, WanPipeline  # noqa: E402
@@ -95,6 +96,8 @@ def frames_ok(frames) -> bool:
 
 
 def render(pipe, shot, use_image: bool):
+    gc.collect()
+    torch.cuda.empty_cache()
     pe, ne = EMBEDS[shot["n"]]
     kw = dict(prompt_embeds=pe.to("cuda"), negative_prompt_embeds=ne.to("cuda") if ne is not None else None,
               height=H, width=W, num_frames=int(shot["frames"]),

@@ -665,6 +665,7 @@ def cmd_edit(args) -> None:
                 cmd += ["-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo"]
             cmd += ["-vf", ",".join(vf), "-map", "0:v:0", "-map", "0:a:0" if audio else "1:a:0",
                     "-af", "aresample=48000,aformat=channel_layouts=stereo", "-shortest",
+                    "-t", f"{e - s:.3f}",  # hard cap: silent-audio pieces otherwise run long and captions drift
                     "-c:v", "libx264", "-crf", "14", "-preset", "veryfast", "-c:a", "pcm_s16le", str(piece)]
             run(cmd)
             pieces.append(piece)
