@@ -133,7 +133,7 @@ def fb_story(image: Path) -> tuple[str, str] | None:
     return data.get("post_id", pid), url
 
 
-def fb_reel(video: Path, description: str) -> str | None:
+def fb_reel(video: Path, description: str, state: str = "PUBLISHED") -> str | None:
     cfg = _fb()
     if not cfg:
         return None
@@ -146,7 +146,7 @@ def fb_reel(video: Path, description: str) -> str | None:
                                                           "file_size": str(video.stat().st_size)},
                              data=f, timeout=900), "Facebook reel upload")
     _check(requests.post(f"{GRAPH}/{page}/video_reels", data={
-        "upload_phase": "finish", "video_id": vid, "video_state": "PUBLISHED",
+        "upload_phase": "finish", "video_id": vid, "video_state": state,
         "description": description, "access_token": tok}, timeout=TIMEOUT), "Facebook reel publish")
     # Facebook processes the reel asynchronously; confirm it actually went live (or surface the error).
     t0 = time.time()
@@ -156,12 +156,12 @@ def fb_reel(video: Path, description: str) -> str | None:
         phases = {k: (v or {}).get("status") for k, v in st.items() if isinstance(v, dict)}
         if st.get("video_status") == "error" or "error" in phases.values():
             raise PublishError(f"Facebook reel processing failed: {json.dumps(st)[:600]}")
-        if st.get("video_status") == "ready" and phases.get("publishing_phase") in (None, "complete"):
+        if st.get("video_status") == "ready" and (state != "PUBLISHED" or phases.get("publishing_phase") in (None, "complete")):
             break
         time.sleep(15)
     else:
         print("  ! Facebook reel still processing after 10 min (it usually finishes on its own)")
-    print(f"  ✔ Facebook reel: https://www.facebook.com/reel/{vid}")
+    print(f"  ✔ Facebook reel ({state.lower()}): https://www.facebook.com/reel/{vid}")
     return vid
 
 
@@ -291,8 +291,29 @@ def check() -> bool:
     return ok
 
 
+def fb_test() -> None:
+    """Upload a short test reel to the Page as a DRAFT (not public). Builds the clip from the character board."""
+    import subprocess
+    root = Path(__file__).resolve().parent.parent
+    board = root / "references" / "boards" / "character_board_2.png"
+    out = Path("/tmp/fb_test_reel.mp4")
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-loop", "1", "-i", str(board),
+                    "-f", "lavfi", "-i", "sine=frequency=440:duration=8",
+                    "-vf", "scale=-2:1920,crop=1080:1920,zoompan=z='min(zoom+0.0008,1.12)':d=240:s=1080x1920:fps=30",
+                    "-t", "8", "-c:v", "libx264", "-pix_fmt", "yuv420p", "-c:a", "aac", "-shortest", str(out)], check=True)
+    print(f"  test clip: {out.stat().st_size // 1024} KB, 8s 1080x1920")
+    fb_reel(out, "Pipeline test reel (draft) 🐾", state="DRAFT")
+    print("  → open Meta Business Suite → Content → Drafts to see it (not visible to the public)")
+
+
 if __name__ == "__main__":
     import sys
     if sys.argv[1:] == ["check"]:
         print("Publishing setup check (nothing is posted):")
         sys.exit(0 if check() else 1)
+    if sys.argv[1:] == ["fbtest"]:
+        print("Setup check:")
+        if not check():
+            sys.exit("✖ fix the setup problems above first")
+        print("Facebook draft reel test:")
+        fb_test()

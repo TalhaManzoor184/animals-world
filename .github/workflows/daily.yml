@@ -25,7 +25,7 @@ on:
         description: "What to run now"
         type: choice
         default: kickoff
-        options: [kickoff, reel, post, story, all, status, check]
+        options: [kickoff, reel, post, story, all, status, check, fbtest]
 
 permissions:
   contents: write
@@ -121,6 +121,7 @@ jobs:
           case "$W" in
             status) CMD="python pipeline/free_mode.py status" ;;
             check)  CMD="python pipeline/publish.py check" ;;
+            fbtest) CMD="python pipeline/publish.py fbtest" ;;
             *)      CMD="python pipeline/daily.py $W" ;;
           esac
           $CMD 2>&1 | tee "runs/latest-$W.log"
