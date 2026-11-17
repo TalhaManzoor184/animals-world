@@ -1,36 +1,6 @@
 
-######## DAILY REEL (test-4) ########
-  Kaggle kernel status: complete
-  GPU: Tesla T4  rendered: 11/11  times: [1246, 592, 687, 1394, 686, 639, 686, 932, 921, 920, 921]
-  (no music file at assets/music/sneaky_pizzicato.mp3; exporting without music)
-✔ final video: episodes/EP001_operation_watermelon/11_Final_Edited_Video/EP001_operation_watermelon_final.mp4 (34.3s)
-# QC Report: EP001
+✖ Free mode: no Kaggle render was started today (the kickoff job did not run or failed).
 
-## Automated
-- [x] Video is vertical 1080x1920
-- [x] H.264 @ 30fps
-- [x] Duration 15–35s (34.3s)
-- [x] Has audio track
-- [x] Captions file exists
-- [x] Thumbnail exists
-- [x] YouTube title ≤100 chars (56)
-- [ ] Music file is from assets/music (royalty-free)  ← FIX
+######## DAILY REEL (2026-11-17) ########
 
-## Manual review (you)
-- [ ] Opening 3 seconds hook works on mute
-- [ ] Comedy is understandable
-- [ ] Characters consistent across scenes
-- [ ] Accessories correct in every shot
-- [ ] Dialogue matches mouth movement
-- [ ] Audio clear, no garbled words
-- [ ] Captions readable and not under the Shorts UI
-- [ ] Ending lands the punchline
-- [ ] No animal shown harmed, frightened or in distress
-- [ ] AI-content disclosure ticked on upload
-
-Publishing is manual: nothing is uploaded by this pipeline.
-  • YouTube: secrets not set, skipping
-  • Instagram: secrets not set, skipping
-  ✔ Facebook reel (published): https://www.facebook.com/reel/1615496110377944
-
-✔ daily run complete
+✖ failed: ['reel']
