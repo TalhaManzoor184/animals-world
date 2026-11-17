@@ -6,6 +6,7 @@ Daily autopilot: 1 image post, 1 story, 1 reel per day.
   python pipeline/daily.py reel    # new episode (ideas) → produce → QC gate → YouTube Shorts + Instagram Reel + Facebook Reel
   python pipeline/daily.py story   # 9:16 teaser (today's reel thumbnail, else today's post) → Facebook + Instagram story
   python pipeline/daily.py all
+  python pipeline/daily.py kickoff # FREE mode (PRODUCTION_MODE=free): start today's Kaggle GPU render first
 
 Safe to re-run: today's state lives in daily/<YYYY-MM-DD>/, and anything already published is skipped.
 AUTO_PUBLISH=false → review mode: YouTube uploads as private, Instagram/Facebook are skipped.
@@ -28,6 +29,7 @@ ROOT = studio.ROOT
 TODAY = os.getenv("DAILY_DATE") or dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d")
 DAY = ROOT / "daily" / TODAY
 AUTO_PUBLISH = os.getenv("AUTO_PUBLISH", "true").lower() == "true"
+FREE = os.getenv("PRODUCTION_MODE", "paid").lower() == "free"
 
 
 def ns(**kw):
@@ -102,7 +104,17 @@ no animal in danger or distress. Return JSON with keys:
 
 
 def cmd_post(_):
-    img = make_post()
+    if FREE:
+        import free_mode
+        ep_id = state().get("episode")
+        if not ep_id or not free_mode.final_video(ep_id):
+            print("  (free mode) no reel finished today yet; the post is made from the reel, skipping")
+            return
+        img = DAY / "post.jpg"
+        if not img.exists():
+            img = free_mode.free_post(ep_id, DAY)
+    else:
+        img = make_post()
     g = json.loads((DAY / "post.json").read_text())
     text = f"{g['caption']}\n\n{g.get('question', '')}\n\n{' '.join(g.get('hashtags', []))}".strip()
     if not AUTO_PUBLISH:
@@ -118,35 +130,67 @@ def cmd_post(_):
 
 
 # ============================================================ reel
-def cmd_reel(_):
+def cmd_kickoff(_):
+    """Free mode only: start today's Kaggle GPU render (the reel job publishes it later)."""
+    if not FREE:
+        print("  (paid mode) nothing to kick off")
+        return
+    import free_mode
     st = state()
-    ep_id = st.get("episode")
-    if not ep_id:
-        a = ns(ep=None)
-        studio.cmd_ideas(a)
-        ep_id = a.ep
-        save_state(episode=ep_id)
-    print(f"→ today's episode: {ep_id}")
-    a = ns(ep=ep_id)
-    for fn in (studio.cmd_docs, studio.cmd_images, studio.cmd_videos, studio.cmd_voice):
-        fn(a)
-    try:
-        studio.cmd_align(a)
-    except SystemExit:
-        print("  ! caption alignment failed; using script timings")
-    studio.cmd_edit(a)
-    try:
-        studio.cmd_thumb(a)
-    except SystemExit:
-        print("  ! thumbnail failed (non-blocking)")
-    studio.cmd_qc(a)
+    if st.get("free_job"):
+        print(f"  • already started today: {st['free_job']}")
+        return
+    save_state(**free_mode.kickoff(os.getenv("FREE_EPISODE") or None))
 
+
+def cmd_reel(_):
+    if ledger().done("youtube_reel") and (not AUTO_PUBLISH or ledger().done("facebook_reel")):
+        print("  • today's reel already published")
+        return
+    st = state()
+    if FREE:
+        import free_mode
+        if not st.get("free_job"):
+            studio.die("Free mode: no Kaggle render was started today (the kickoff job did not run or failed).")
+        ep_id = st["episode"]
+        if not free_mode.final_video(ep_id) or not st.get("edited"):
+            if not free_mode.collect(ep_id, st["free_job"]):
+                print("  ⏳ Kaggle is still rendering; the next scheduled reel run will try again.")
+                return
+            save_state(edited=True)
+        studio.EPISODE_FILE = "episode.free.json"
+    else:
+        ep_id = st.get("episode")
+        if not ep_id:
+            a = ns(ep=None)
+            studio.cmd_ideas(a)
+            ep_id = a.ep
+            save_state(episode=ep_id)
+        print(f"→ today's episode: {ep_id}")
+        a = ns(ep=ep_id)
+        for fn in (studio.cmd_docs, studio.cmd_images, studio.cmd_videos, studio.cmd_voice):
+            fn(a)
+        try:
+            studio.cmd_align(a)
+        except SystemExit:
+            print("  ! caption alignment failed; using script timings")
+        studio.cmd_edit(a)
+        try:
+            studio.cmd_thumb(a)
+        except SystemExit:
+            print("  ! thumbnail failed (non-blocking)")
+        studio.cmd_qc(a)
+    publish_reel(ep_id)
+
+
+def publish_reel(ep_id: str) -> None:
     ep, d = studio.load_ep(ep_id)
     final = next((d / "11_Final_Edited_Video").glob("*_final.mp4"))
     info = studio.probe(final)
     v = next(s for s in info["streams"] if s["codec_type"] == "video")
     dur = float(info["format"]["duration"])
-    gate = v["width"] == 1080 and v["height"] == 1920 and 15 <= dur <= 60 and \
+    min_s = 8 if FREE else 15
+    gate = v["width"] == 1080 and v["height"] == 1920 and min_s <= dur <= 60 and \
         any(s["codec_type"] == "audio" for s in info["streams"])
     if not gate:
         studio.die(f"QC gate failed for {final.name} ({v['width']}x{v['height']}, {dur:.1f}s); not publishing.")
@@ -183,6 +227,8 @@ def make_story() -> Path:
         canvas = Image.open(thumb).convert("RGB").resize((1080, 1920))
         banner = "NEW VIDEO OUT NOW"
     else:
+        if FREE:
+            studio.die("Free mode: no reel thumbnail today, so no story (nothing paid is generated in free mode).")
         post = make_post()
         src = Image.open(post).convert("RGB")
         canvas = src.resize((1080, 1920)).filter(ImageFilter.GaussianBlur(40))
@@ -214,9 +260,9 @@ def cmd_story(_):
 # ============================================================ main
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("what", choices=["post", "reel", "story", "all"])
+    p.add_argument("what", choices=["kickoff", "post", "reel", "story", "all"])
     a = p.parse_args()
-    jobs = ["post", "reel", "story"] if a.what == "all" else [a.what]
+    jobs = (["kickoff"] if FREE else ["post", "reel", "story"]) if a.what == "all" else [a.what]
     failed = []
     for j in jobs:
         print(f"\n######## DAILY {j.upper()} ({TODAY}) ########")

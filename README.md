@@ -54,14 +54,48 @@ python pipeline/studio.py edit EP001 && python pipeline/studio.py thumb EP001 &&
 python pipeline/studio.py ideas                # next episode: 10 concepts + full episode.json
 ```
 
-## Daily autopilot (`.github/workflows/daily.yml` + `pipeline/daily.py`)
-Every day, on its own:
+## 🆓 FREE mode (default: repo variable `PRODUCTION_MODE=free`)
+Costs $0 per day.
 
-| UTC | PKT | New York | Job | Goes to |
-|---|---|---|---|---|
-| 13:17 | 6:17 PM | ~9 AM | **post**: Gemini writes a gag, then Nano Banana makes a 4:5 image | Facebook Page photo + Instagram feed |
-| 15:41 | 8:41 PM | ~11 AM | **reel**: new episode via `ideas`, full production, then the QC gate | YouTube Shorts + Instagram Reel + Facebook Reel |
-| 21:23 | 2:23 AM | ~5 PM | **story**: 9:16 teaser from today's reel thumbnail (falls back to today's post) | Facebook story + Instagram story |
+| Part | Free tool |
+|---|---|
+| Ideas, script, captions | Gemini API **free tier** (text model) |
+| Voices | Gemini free-tier TTS, and when its daily quota runs out, **Kokoro-82M** (open source, runs on the GitHub runner) |
+| Video clips | **Wan 2.2 TI2V-5B** (open source, Apache 2.0) on **Kaggle's free GPU** (`pipeline/free/render_kernel.py`) |
+| Edit, captions, publish | ffmpeg + GitHub Actions (public repos get unlimited Actions minutes) |
+| Post + story | Clean frame from today's reel, plus meme text written by free Gemini |
+
+How a free reel is built: every spoken line becomes a **close-up of that character talking**, animated from their reference image, so the face never changes. Each scene can also get one short **action shot** (text-to-video) for the physical gag. Clips are 480x832 and upscaled to 1080x1920.
+
+Daily flow:
+1. **05:13 UTC** `kickoff` writes the episode, builds the shot list and voices, uploads a private Kaggle dataset, and starts the Kaggle GPU kernel.
+2. **15:41 UTC** `reel` downloads the clips, edits, and publishes. If Kaggle is still rendering, the 18:11 run retries.
+3. **18:37** post, then **21:23** story, both made from today's reel.
+
+**Setup for free mode**
+1. Make a free Kaggle account, **verify your phone number** (required for GPU), then go to Settings → API → *Create New Token*.
+2. Add repo secrets `KAGGLE_USERNAME` and `KAGGLE_KEY` (from `kaggle.json`) and `GEMINI_API_KEY` (a free key works).
+3. Put sharp, high-res, front-facing images of each character in `references/portraits/` (`milo.png`, `bruno.png`, …).
+   These are animated directly, so their quality is the quality of every reel. Until you add them, the small board crops are used.
+4. First test: Actions → *Daily autopilot* → run `kickoff`, wait ~2–3 h, then run `reel` (with `AUTO_PUBLISH=false` to review first).
+   Set repo variable `FREE_EPISODE=EP001` to render the existing episode instead of writing a new one, then delete the variable.
+
+Limits to know:
+- Kaggle gives a weekly free GPU quota, enough for roughly one reel a day.
+- No lip-sync: mouths move, but not exactly to the words.
+- Quality is below Veo.
+- Tuning variables: `FREE_STEPS` (default 30), `FREE_WIDTH`/`FREE_HEIGHT` (480x832; 704x1280 looks better but is ~3x slower), `TTS_ENGINE` (auto/gemini/kokoro).
+- Switch back to Veo any time with `PRODUCTION_MODE=paid`.
+
+## Daily autopilot (`.github/workflows/daily.yml` + `pipeline/daily.py`)
+Every day, on its own (times in UTC; PKT = +5):
+
+| UTC | PKT | Job | Goes to |
+|---|---|---|---|
+| 05:13 | 10:13 AM | **kickoff** (free mode only): start the Kaggle render | none |
+| 15:41 (+18:11 retry) | 8:41 PM | **reel** | YouTube Shorts + Instagram Reel + Facebook Reel |
+| 18:37 | 11:37 PM | **post**: meme still from the reel (free) / generated image (paid) | Facebook Page photo + Instagram feed |
+| 21:23 | 2:23 AM | **story**: 9:16 teaser of today's reel | Facebook story + Instagram story |
 
 - **Idempotent:** `daily/<date>/published.json` logs every post, so a re-run never double-posts. A failed reel resumes the same episode, because clips are cached between runs.
 - **Review mode:** set repo variable `AUTO_PUBLISH=false`. YouTube then uploads as *private*, and Instagram/Facebook are skipped. Files are still built and downloadable from the run's artifact.
@@ -72,7 +106,8 @@ Every day, on its own:
 ### Secrets (Settings → Secrets and variables → Actions)
 | Secret | What |
 |---|---|
-| `GEMINI_API_KEY` | Paid Gemini API key (Veo needs billing) |
+| `GEMINI_API_KEY` | Gemini API key (a free key is enough for free mode; paid mode/Veo needs billing) |
+| `KAGGLE_USERNAME`, `KAGGLE_KEY` | Free mode: Kaggle account (phone-verified) API token |
 | `YT_CLIENT_ID`, `YT_CLIENT_SECRET`, `YT_REFRESH_TOKEN` | Google Cloud OAuth client (Desktop app) + refresh token with scope `https://www.googleapis.com/auth/youtube.upload`, for the channel's Google account |
 | `FB_PAGE_ID`, `FB_PAGE_TOKEN` | Facebook Page id + **long-lived Page access token** with `pages_manage_posts, pages_read_engagement, pages_show_list, instagram_basic, instagram_content_publish` |
 | `IG_USER_ID` | Instagram **Business/Creator** account id linked to that Page (`GET /{page-id}?fields=instagram_business_account`) |

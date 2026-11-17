@@ -1,22 +1,25 @@
 name: Daily autopilot
 
-# Every day (UTC times; PKT = UTC+5, US East = UTC-5/-4):
-#   13:17 UTC  → image post   (6:17 PM PKT  |  ~9 AM New York)
-#   15:41 UTC  → reel         (8:41 PM PKT  |  ~11 AM New York)
-#   21:23 UTC  → story        (2:23 AM PKT  |  ~5 PM New York, teases the reel)
-# Odd minutes on purpose: GitHub delays jobs scheduled on the hour.
+# Every day (UTC; PKT = UTC+5; New York = UTC-5/-4). Odd minutes on purpose: GitHub delays :00 jobs.
+#   05:13  kickoff  (10:13 AM PKT)  FREE mode only: starts the Kaggle GPU render (takes a few hours)
+#   15:41  reel     (8:41 PM PKT | ~11 AM NY)  free: collect + edit; paid: full production. Then publish.
+#   18:11  reel     (11:11 PM PKT)  retry, in case Kaggle was still rendering
+#   18:37  post     (11:37 PM PKT | ~1 PM NY)  free: meme still from today's reel; paid: generated image
+#   21:23  story    (2:23 AM PKT | ~5 PM NY)   teaser of today's reel
 on:
   schedule:
-    - cron: "17 13 * * *"
+    - cron: "13 5 * * *"
     - cron: "41 15 * * *"
+    - cron: "11 18 * * *"
+    - cron: "37 18 * * *"
     - cron: "23 21 * * *"
   workflow_dispatch:
     inputs:
       what:
         description: "What to run now"
         type: choice
-        default: post
-        options: [post, reel, story, all]
+        default: kickoff
+        options: [kickoff, reel, post, story, all]
 
 permissions:
   contents: write
@@ -37,6 +40,11 @@ jobs:
       FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
       FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
       IG_USER_ID: ${{ secrets.IG_USER_ID }}
+      KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+      KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+      PRODUCTION_MODE: ${{ vars.PRODUCTION_MODE || 'free' }}
+      TTS_ENGINE: ${{ vars.TTS_ENGINE || 'auto' }}
+      FREE_EPISODE: ${{ vars.FREE_EPISODE }}
       AUTO_PUBLISH: ${{ vars.AUTO_PUBLISH || 'true' }}
       VIDEO_MODEL: ${{ vars.VIDEO_MODEL || 'veo-3.1-fast-generate-preview' }}
       IMAGE_MODEL: ${{ vars.IMAGE_MODEL || 'gemini-3.1-flash-image' }}
@@ -49,8 +57,10 @@ jobs:
         id: pick
         run: |
           case "${{ github.event.schedule }}" in
-            "17 13 * * *") W=post ;;
+            "13 5 * * *")  W=kickoff ;;
             "41 15 * * *") W=reel ;;
+            "11 18 * * *") W=reel ;;
+            "37 18 * * *") W=post ;;
             "23 21 * * *") W=story ;;
             *) W="${{ github.event.inputs.what }}" ;;
           esac
@@ -82,7 +92,7 @@ jobs:
 
       - name: Install
         run: |
-          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg espeak-ng
           pip install -r pipeline/requirements.txt
 
       - name: Run

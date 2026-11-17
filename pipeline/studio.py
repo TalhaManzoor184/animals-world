@@ -87,9 +87,12 @@ def ep_dir(ep: str) -> Path:
     return hits[0]
 
 
+EPISODE_FILE = os.getenv("EPISODE_FILE", "episode.json")   # free mode edits from episode.free.json
+
+
 def load_ep(ep: str) -> tuple[dict, Path]:
     d = ep_dir(ep)
-    return json.loads((d / "episode.json").read_text(encoding="utf-8")), d
+    return json.loads((d / EPISODE_FILE).read_text(encoding="utf-8")), d
 
 
 def sub(d: Path, folder: str) -> Path:
@@ -795,11 +798,15 @@ def cmd_ideas(args) -> None:
     history = json.loads(hist_p.read_text()) if hist_p.exists() else []
     example = json.loads(ep_dir("EP001").joinpath("episode.json").read_text())
     next_id = f"EP{len(history) + 1:03d}"
+    FREE_HINT = ("FORMAT NOTE (free production mode): every spoken line is shown as a close-up of that ONE character "
+                 "talking to camera, and each scene may add one short action shot with no dialogue. So write the comedy "
+                 "as punchy one-liners and reactions (max 6 lines total, each under 10 words), with the physical gag in "
+                 "the action shots.\n") if os.getenv("PRODUCTION_MODE", "paid") == "free" else ""
     prompt = f"""You are the head writer of a photorealistic talking-animal comedy Shorts channel (English, US/UK/CA audience).
 CHARACTERS (never change them): {json.dumps({k: {x: v[x] for x in ('name', 'species', 'personality', 'role')} for k, v in chars['characters'].items()})}
 ALREADY MADE (do not repeat premises or punchlines): {json.dumps([{'title': h['title'], 'concept': h['concept']} for h in history])}
 CATEGORIES: friendships, unexpected reactions, food stealing, misunderstandings, pranks, crazy adventures, competitions, family situations, plot twists, relatable everyday comedy.
-RULES: 15–35s total; 3–5 scenes; each scene is ONE continuous 8-second AI video shot (no cuts inside) with at most 3 characters;
+{FREE_HINT}RULES: 15–35s total; 3–5 scenes; each scene is ONE continuous 8-second AI video shot (no cuts inside) with at most 3 characters;
 simple, short, funny English dialogue; visual comedy first; strong first-3-second hook; harmless fictional situations only:
 no animal ever harmed, frightened, in danger or distress; no brands, no real people, no copyrighted music.
 
