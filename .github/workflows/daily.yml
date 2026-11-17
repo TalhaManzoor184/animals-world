@@ -13,13 +13,19 @@ on:
     - cron: "11 18 * * *"
     - cron: "37 18 * * *"
     - cron: "23 21 * * *"
+  # Test runs: push a change to triggers/run.json, e.g.
+  #   {"what": "kickoff", "free_episode": "EP001", "auto_publish": "false", "daily_date": "test-1"}
+  # The run's log (and for test dates, the produced media) is committed to runs/ so it can be read without the Actions UI.
+  push:
+    branches: [main]
+    paths: [triggers/run.json]
   workflow_dispatch:
     inputs:
       what:
         description: "What to run now"
         type: choice
         default: kickoff
-        options: [kickoff, reel, post, story, all]
+        options: [kickoff, reel, post, story, all, status]
 
 permissions:
   contents: write
@@ -53,6 +59,8 @@ jobs:
       VIDEO_RES: ${{ vars.VIDEO_RES || '1080p' }}
       GRAPH_VERSION: ${{ vars.GRAPH_VERSION || 'v24.0' }}
     steps:
+      - uses: actions/checkout@v4
+
       - name: Pick job
         id: pick
         run: |
@@ -64,10 +72,16 @@ jobs:
             "23 21 * * *") W=story ;;
             *) W="${{ github.event.inputs.what }}" ;;
           esac
-          echo "what=$W" >> "$GITHUB_OUTPUT"
-          echo "Running: $W"
-
-      - uses: actions/checkout@v4
+          AP="${{ vars.AUTO_PUBLISH || 'true' }}"; FE="${{ vars.FREE_EPISODE }}"; DD=""
+          if [ "${{ github.event_name }}" = "push" ]; then
+            cp triggers/run.json /tmp/run.json
+            W=$(jq -r '.what // "kickoff"' /tmp/run.json)
+            AP=$(jq -r '.auto_publish // "false"' /tmp/run.json)
+            FE=$(jq -r '.free_episode // ""' /tmp/run.json)
+            DD=$(jq -r '.daily_date // ""' /tmp/run.json)
+          fi
+          { echo "what=$W"; echo "auto_publish=$AP"; echo "free_episode=$FE"; echo "daily_date=$DD"; } >> "$GITHUB_OUTPUT"
+          echo "Running: $W (auto_publish=$AP free_episode=$FE daily_date=$DD)"
 
       # Generated media (images, clips, audio) is not committed; it is cached between runs
       # so a retried reel resumes instead of paying for the same clips again.
@@ -96,7 +110,24 @@ jobs:
           pip install -r pipeline/requirements.txt
 
       - name: Run
-        run: python pipeline/daily.py ${{ steps.pick.outputs.what }}
+        env:
+          AUTO_PUBLISH: ${{ steps.pick.outputs.auto_publish }}
+          FREE_EPISODE: ${{ steps.pick.outputs.free_episode }}
+          DAILY_DATE: ${{ steps.pick.outputs.daily_date }}
+        run: |
+          mkdir -p runs
+          W="${{ steps.pick.outputs.what }}"
+          set -o pipefail
+          if [ "$W" = "status" ]; then CMD="python pipeline/free_mode.py status"; else CMD="python pipeline/daily.py $W"; fi
+          $CMD 2>&1 | tee "runs/latest-$W.log"
+
+      - name: Keep test outputs in the repo (test dates only)
+        if: always() && startsWith(steps.pick.outputs.daily_date, 'test')
+        run: |
+          D="runs/${{ steps.pick.outputs.daily_date }}"; mkdir -p "$D"
+          cp daily/${{ steps.pick.outputs.daily_date }}/*.json daily/${{ steps.pick.outputs.daily_date }}/*.jpg "$D"/ 2>/dev/null || true
+          cp episodes/*/11_Final_Edited_Video/*_final.mp4 episodes/*/12_Thumbnail/*_thumbnail.jpg "$D"/ 2>/dev/null || true
+          cp episodes/*/QC_REPORT.md "$D"/ 2>/dev/null || true
 
       - name: Prune old media
         if: always()
@@ -122,7 +153,8 @@ jobs:
         run: |
           git config user.name "studio-bot"
           git config user.email "studio-bot@users.noreply.github.com"
-          git add -A episodes daily references config
+          echo "${{ steps.pick.outputs.what }} finished $(date -u +%FT%TZ) run ${{ github.run_id }}" >> runs/history.txt
+          git add -A episodes daily references config runs
           git diff --cached --quiet || git commit -m "daily ${{ steps.pick.outputs.what }}: $(date -u +%F)"
           git pull --rebase && git push
 
