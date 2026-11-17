@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.env
+# generated media: kept in the Actions cache + artifacts, not in git
+episodes/**/*.mp4
+episodes/**/*.wav
+episodes/**/*.png
+episodes/**/*.jpg
+episodes/**/*.ass
+daily/**/*.jpg
+daily/**/*.png

@@ -1,0 +1,71 @@
+{
+  "_note": "Canonical character bible. Looks follow references/boards/character_board_2.png (the per-character crops in references/characters/). Change a 'look' line here and every future prompt follows.",
+  "style": {
+    "visual": "Ultra-realistic animal photography, cinematic lighting, detailed fur and feathers, realistic eyes, natural shadows, shot on a professional full-frame camera, shallow depth of field, expressive animal faces, rich environmental detail, vertical 9:16 composition",
+    "negative": "cartoon, anime, 3D render look, plastic-looking fur, inconsistent faces, extra limbs, duplicate animals, distorted anatomy, wrong or missing accessories, clothing changes, text, captions, watermark, logo, extra background animals, humans",
+    "default_setting": "a sunny rustic farmyard with a wooden fence, red barn, green grass and a wooden picnic table"
+  },
+  "characters": {
+    "milo": {
+      "name": "Milo",
+      "role": "Main hero",
+      "species": "orange tabby cat",
+      "look": "orange tabby cat with subtle darker orange stripes, white muzzle and chin, large expressive amber eyes, wearing black rectangular sunglasses and a plain red hoodie with white drawstrings",
+      "personality": "confident, clever, mischievous, dramatic",
+      "voice": {"description": "confident, smooth, slightly smug young male comedy voice, American accent", "tts_voice": "Puck"},
+      "ref": "references/characters/milo_crop.png",
+      "sheet": "references/characters/milo_sheet.png"
+    },
+    "bruno": {
+      "name": "Bruno",
+      "role": "Milo's best friend",
+      "species": "golden retriever",
+      "look": "golden retriever with fluffy golden fur, big happy brown eyes, wearing a blue baseball cap turned backwards and a blue bandana with white paw prints tied around the neck",
+      "personality": "loyal, innocent, goofy",
+      "voice": {"description": "friendly, innocent, cheerful male voice, a bit slow", "tts_voice": "Achird"},
+      "ref": "references/characters/bruno_crop.png",
+      "sheet": "references/characters/bruno_sheet.png"
+    },
+    "rocky": {
+      "name": "Rocky",
+      "role": "The troublemaker",
+      "species": "white goat",
+      "look": "white goat with curved grey-brown horns and a pink nose, wearing black sunglasses, a black t-shirt and a thick gold chain necklace",
+      "personality": "attitude, dramatic, overconfident",
+      "voice": {"description": "deep, dramatic, overconfident male voice", "tts_voice": "Charon"},
+      "ref": "references/characters/rocky_crop.png",
+      "sheet": "references/characters/rocky_sheet.png"
+    },
+    "ducky": {
+      "name": "Ducky",
+      "role": "Comedy specialist",
+      "species": "white duck",
+      "look": "white Pekin duck with clean white feathers and a bright orange beak, wearing black sunglasses and a gold chain necklace",
+      "personality": "energetic, funny, unpredictable",
+      "voice": {"description": "high-energy, quick, squeaky funny voice", "tts_voice": "Fenrir"},
+      "ref": "references/characters/ducky_crop.png",
+      "sheet": "references/characters/ducky_sheet.png"
+    },
+    "coco": {
+      "name": "Coco",
+      "role": "Creates unexpected situations",
+      "species": "brown rabbit",
+      "look": "brown agouti rabbit with tall expressive ears, dark shiny eyes and a cream chest, wearing a blue denim jacket",
+      "personality": "curious, clever, mischievous",
+      "voice": {"description": "cute, playful, bright female voice", "tts_voice": "Leda"},
+      "ref": "references/characters/coco_crop.png",
+      "sheet": "references/characters/coco_sheet.png"
+    },
+    "chiku": {
+      "name": "Chiku",
+      "role": "Overreacts to everything",
+      "species": "orange-red rooster",
+      "look": "orange-red rooster with bright glossy orange-red feathers, a tall red comb and red wattles, wearing black sunglasses and a gold chain necklace",
+      "personality": "loud, dramatic, funny",
+      "voice": {"description": "loud, panicky, dramatic voice that cracks when shouting", "tts_voice": "Sadachbia"}
+      ,
+      "ref": "references/characters/chiku_crop.png",
+      "sheet": "references/characters/chiku_sheet.png"
+    }
+  }
+}

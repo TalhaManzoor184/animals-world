@@ -1,0 +1,110 @@
+name: Produce episode
+
+# Manual only: you choose the episode and the step. Nothing is ever published:
+# the result is uploaded as a workflow artifact for you to review and post yourself.
+on:
+  workflow_dispatch:
+    inputs:
+      episode:
+        description: "Episode id (e.g. EP001). Leave blank for 'ideas' / 'refs'."
+        required: false
+        default: "EP001"
+      step:
+        description: "Step to run"
+        required: true
+        default: "plan"
+        type: choice
+        options: [plan, ideas, refs, docs, images, videos, voice, align, edit, thumb, qc, all]
+      scene:
+        description: "Only this scene number (optional, images/videos)"
+        required: false
+      force:
+        description: "Regenerate existing files"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: produce-${{ github.event.inputs.episode }}
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      VIDEO_MODEL: ${{ vars.VIDEO_MODEL || 'veo-3.1-fast-generate-preview' }}
+      IMAGE_MODEL: ${{ vars.IMAGE_MODEL || 'gemini-3.1-flash-image' }}
+      DIALOGUE_MODE: ${{ vars.DIALOGUE_MODE || 'veo' }}
+      VIDEO_MODE: ${{ vars.VIDEO_MODE || 'first_frame' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Restore media cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            episodes/*/06_Image_Assets
+            episodes/*/08_Video_Assets
+            episodes/*/09_Voice_Over
+            episodes/*/11_Final_Edited_Video
+            episodes/*/12_Thumbnail
+            daily/
+          key: media-${{ github.run_id }}
+          restore-keys: media-
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pipeline/requirements.txt
+
+      - name: Install ffmpeg + deps
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          pip install -r pipeline/requirements.txt
+
+      - name: Run step
+        run: |
+          ARGS="${{ github.event.inputs.step }} ${{ github.event.inputs.episode }}"
+          if [ "${{ github.event.inputs.step }}" = "ideas" ] || [ "${{ github.event.inputs.step }}" = "refs" ]; then
+            ARGS="${{ github.event.inputs.step }}"
+          fi
+          [ -n "${{ github.event.inputs.scene }}" ] && ARGS="$ARGS --scene ${{ github.event.inputs.scene }}"
+          [ "${{ github.event.inputs.force }}" = "true" ] && ARGS="$ARGS --force"
+          python pipeline/studio.py $ARGS
+
+      - name: Save media cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            episodes/*/06_Image_Assets
+            episodes/*/08_Video_Assets
+            episodes/*/09_Voice_Over
+            episodes/*/11_Final_Edited_Video
+            episodes/*/12_Thumbnail
+            daily/
+          key: media-${{ github.run_id }}
+
+      # Text outputs are committed; media lives in the cache + artifact (not in git).
+      - name: Commit generated files
+        run: |
+          git config user.name "studio-bot"
+          git config user.email "studio-bot@users.noreply.github.com"
+          git add episodes references config || true
+          git diff --cached --quiet || git commit -m "studio: ${{ github.event.inputs.step }} ${{ github.event.inputs.episode }}"
+          git pull --rebase && git push
+
+      - name: Upload episode folder
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.inputs.episode || 'studio' }}-${{ github.event.inputs.step }}
+          path: |
+            episodes/
+            references/characters/
+          retention-days: 14

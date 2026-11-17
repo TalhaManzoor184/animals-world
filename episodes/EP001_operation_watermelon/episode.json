@@ -1,0 +1,354 @@
+{
+  "id": "EP001",
+  "slug": "operation_watermelon",
+  "title": "Operation Watermelon",
+  "category": "Food stealing + unexpected plot twist",
+  "main_character": "milo",
+  "supporting": [
+    "bruno",
+    "rocky",
+    "chiku",
+    "ducky"
+  ],
+  "target_duration_s": 33,
+  "concept": {
+    "story": "Milo leads a spy-style heist to grab a giant watermelon from the farm picnic table. Bruno blows their cover, Rocky takes over to 'show the professionals' and knocks the watermelon off the table, and Chiku panics as it rolls away. It cracks open right in front of Ducky, who thanks everyone for the delivery.",
+    "hook": "Extreme close-up of Milo in sunglasses peeking over a hay bale, whispering the mission name.",
+    "comedy_moment": "Rocky's cool strut ends with his sunglasses slipping and a gentle bump that sends the watermelon rolling across the yard.",
+    "punchline": "The watermelon cracks open at Ducky's feet: 'Thanks for the delivery!' Milo slowly lowers his sunglasses in disbelief.",
+    "viral_notes": "Heist parody that reads instantly, visual twist that works on mute, and a loopable ending (Milo's stare leads back into his opening whisper)."
+  },
+  "music": {
+    "brief": "Light comedic 'sneaky spy' pizzicato loop for clips 1-2, a quick rise for clip 3, a stop-down beat on the punchline, then a tiny comedic sting under the Milo stare.",
+    "file": "assets/music/sneaky_pizzicato.mp3",
+    "volume_db": -20,
+    "source_rule": "Royalty-free only (YouTube Audio Library, or a track you own). Never commercial songs."
+  },
+  "scenes": [
+    {
+      "n": 1,
+      "beat": "HOOK: the plan",
+      "cast": [
+        "milo",
+        "bruno"
+      ],
+      "clip_seconds": 8,
+      "use": [
+        0.0,
+        7.0
+      ],
+      "image": {
+        "action": "Milo peeks over the top of a golden hay bale in the foreground, only his head, paws and the top of his red hoodie visible, leaning toward the camera conspiratorially. Bruno sits just behind Milo's right shoulder, head poking up beside him, ears perked, tongue slightly out.",
+        "expressions": {
+          "milo": "narrowed eyes behind the sunglasses, serious secret-agent face, one eyebrow raised",
+          "bruno": "wide innocent eyes, excited and eager"
+        },
+        "environment": "farmyard at golden hour; out of focus in the background, a wooden picnic table with one giant green striped watermelon on it, red barn behind",
+        "lighting": "warm low golden-hour sunlight from the left, soft rim light on fur, gentle lens bloom",
+        "camera": "eye-level with the animals, 50mm lens, extreme close-up on Milo with Bruno slightly behind",
+        "composition": "Milo's face in the upper third centre, Bruno right of frame, the watermelon a soft shape in the deep background top-left"
+      },
+      "video": {
+        "start": "Milo peeking over the hay bale, Bruno beside him",
+        "motion": "Milo slowly turns his head toward camera and leans in to whisper; Bruno bounces up excitedly and shouts with his tail wagging; Milo snaps his head toward Bruno and raises one paw to his mouth to shush him",
+        "camera_move": "very slow push-in on Milo",
+        "environment_motion": "hay strands drifting in the breeze, dust motes in the sunlight",
+        "end": "Milo frozen mid-shush, glaring at Bruno; Bruno ears down, sheepish",
+        "sfx": "soft rustling hay, a distant rooster cluck, a quiet breeze"
+      },
+      "dialogue": [
+        {
+          "speaker": "milo",
+          "line": "Team. Operation Watermelon... starts now.",
+          "emotion": "whispered, dramatic, secret-agent",
+          "at": [
+            0.4,
+            3.6
+          ]
+        },
+        {
+          "speaker": "bruno",
+          "line": "YES, BOSS!",
+          "emotion": "way too loud, happy",
+          "at": [
+            4.2,
+            5.4
+          ]
+        },
+        {
+          "speaker": "milo",
+          "line": "Shhh!",
+          "emotion": "sharp, annoyed whisper",
+          "at": [
+            5.9,
+            6.8
+          ]
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "beat": "SETUP: the professional",
+      "cast": [
+        "rocky",
+        "milo"
+      ],
+      "clip_seconds": 8,
+      "use": [
+        0.0,
+        7.0
+      ],
+      "image": {
+        "action": "Rocky stands confidently in the open grass in the foreground, chest out, chin up, mid-stride as if he just stepped into frame. Milo peeks from behind the hay bale on the left edge in the background.",
+        "expressions": {
+          "rocky": "smug, overconfident half-smile",
+          "milo": "flat, unimpressed deadpan"
+        },
+        "environment": "same sunny farmyard; the wooden picnic table with the giant watermelon clearly visible in the mid-ground behind Rocky",
+        "lighting": "warm golden-hour sunlight from the left, long soft shadows on the grass",
+        "camera": "low angle from grass level, 35mm lens, medium-full shot making Rocky look heroic",
+        "composition": "Rocky centre frame, the watermelon table above his right shoulder, Milo small on the left behind the hay bale"
+      },
+      "video": {
+        "start": "Rocky standing proudly, Milo peeking in the background",
+        "motion": "Rocky turns his head toward Milo and speaks, then struts in slow motion toward the picnic table with exaggerated swagger, his gold chain swinging; in the background Milo slowly turns his face to the camera with a deadpan look",
+        "camera_move": "slow tracking shot following Rocky from behind as he walks toward the table",
+        "environment_motion": "grass swaying, butterflies in the background",
+        "end": "Rocky arriving next to the picnic table, watermelon at his eye level",
+        "sfx": "confident hoof steps on grass, gold chain clinking"
+      },
+      "dialogue": [
+        {
+          "speaker": "rocky",
+          "line": "Step aside, amateurs. Watch a professional.",
+          "emotion": "deep, smug, dramatic",
+          "at": [
+            0.3,
+            3.4
+          ]
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "beat": "CONFLICT: the watermelon escapes",
+      "cast": [
+        "rocky",
+        "chiku"
+      ],
+      "clip_seconds": 8,
+      "use": [
+        0.0,
+        8.0
+      ],
+      "image": {
+        "action": "Rocky stands right beside the wooden picnic table, head tilted in a 'cool' pose, his sunglasses sliding down his nose. The giant green striped watermelon sits on the edge of the table next to him. Chiku stands on top of the wooden fence in the background.",
+        "expressions": {
+          "rocky": "smug, eyes half-closed, sunglasses slipping",
+          "chiku": "alert, watching"
+        },
+        "environment": "the picnic table on a gentle grassy slope that runs down toward a small pond area",
+        "lighting": "bright warm afternoon sun, crisp shadows",
+        "camera": "eye-level, 35mm lens, medium-wide shot",
+        "composition": "table and Rocky in the left half, open sloping grass to the right for the roll, Chiku on the fence top-right"
+      },
+      "video": {
+        "start": "Rocky posing next to the table, watermelon at the table edge",
+        "motion": "Rocky flicks his head in a cool pose, his sunglasses slip down his nose and he leans to catch them, gently nudging the table with his shoulder; the watermelon wobbles, drops softly onto the grass and starts rolling down the slope; Rocky freezes with an open-mouthed stare; on the fence Chiku flaps his wings wildly and screams",
+        "camera_move": "quick pan right following the rolling watermelon",
+        "environment_motion": "grass parting as the watermelon rolls",
+        "end": "watermelon rolling away down the slope, Chiku mid-scream on the fence",
+        "sfx": "wooden table bump, soft thud, rolling rumble on grass, frantic wing flaps"
+      },
+      "dialogue": [
+        {
+          "speaker": "chiku",
+          "line": "THE WATERMELON IS ESCAPING!",
+          "emotion": "loud, panicked, dramatic",
+          "at": [
+            4.0,
+            6.6
+          ]
+        }
+      ],
+      "punch": [
+        [
+          4.0,
+          6.6,
+          1.15
+        ]
+      ]
+    },
+    {
+      "n": 4,
+      "beat": "PUNCHLINE: the delivery",
+      "cast": [
+        "ducky"
+      ],
+      "clip_seconds": 8,
+      "use": [
+        0.0,
+        7.0
+      ],
+      "image": {
+        "action": "Ducky lounges relaxed in the soft grass at the bottom of the slope next to a small smooth rock, wings resting behind his head like a sunbather. The giant watermelon is rolling toward him from the upper left.",
+        "expressions": {
+          "ducky": "relaxed, eyes closed behind sunglasses, carefree"
+        },
+        "environment": "bottom of the grassy slope near a little pond with reeds, wildflowers around",
+        "lighting": "warm afternoon sun, soft highlights on white feathers",
+        "camera": "low angle at grass level, 35mm lens, medium shot",
+        "composition": "Ducky in the lower right third, the rock in front of him, the watermelon entering from the upper left"
+      },
+      "video": {
+        "start": "Ducky lounging, watermelon rolling in from upper left",
+        "motion": "the watermelon rolls into the small rock and cracks open neatly into two halves showing bright red flesh, right in front of Ducky; Ducky slowly lowers his sunglasses, looks at the watermelon, grins widely and speaks happily, then takes a little peck of the red fruit",
+        "camera_move": "slow push-in on Ducky",
+        "environment_motion": "reeds swaying, a little splash of watermelon juice",
+        "end": "Ducky happily nibbling the watermelon half",
+        "sfx": "satisfying crack of watermelon, juicy crunch, happy quack"
+      },
+      "dialogue": [
+        {
+          "speaker": "ducky",
+          "line": "Ooh! Thanks for the delivery!",
+          "emotion": "delighted, high energy",
+          "at": [
+            3.0,
+            5.2
+          ],
+          "highlight": true
+        }
+      ],
+      "flash_in": true
+    },
+    {
+      "n": 5,
+      "beat": "TAG: Milo's stare (loop point)",
+      "cast": [
+        "milo",
+        "bruno"
+      ],
+      "clip_seconds": 8,
+      "use": [
+        0.0,
+        4.0
+      ],
+      "image": {
+        "action": "Milo and Bruno stand side by side at the top of the slope looking down toward the camera, Milo in front.",
+        "expressions": {
+          "milo": "stunned, mouth slightly open, frozen",
+          "bruno": "confused head tilt"
+        },
+        "environment": "top of the grassy slope, picnic table behind them with nothing on it",
+        "lighting": "warm afternoon sun, slight backlight",
+        "camera": "eye-level, 85mm lens, medium close-up, symmetrical",
+        "composition": "Milo centre, Bruno just behind to the right"
+      },
+      "video": {
+        "start": "Milo frozen, staring",
+        "motion": "Milo very slowly lowers his sunglasses with one paw and stares straight into the camera without blinking; Bruno tilts his head and asks his question",
+        "camera_move": "fast dramatic zoom-in on Milo's face",
+        "environment_motion": "a single leaf drifting past",
+        "end": "extreme close-up of Milo's deadpan eyes",
+        "sfx": "a single cricket chirp in the silence"
+      },
+      "dialogue": [
+        {
+          "speaker": "bruno",
+          "line": "...Mission success?",
+          "emotion": "innocent, unsure",
+          "at": [
+            1.8,
+            3.4
+          ]
+        }
+      ],
+      "punch": [
+        [
+          1.0,
+          4.0,
+          1.15
+        ]
+      ]
+    }
+  ],
+  "edit": {
+    "transitions": "hard cuts only; a 4-frame white flash before scene 4 to sell the crack",
+    "zoom_effects": "Driven by each scene's 'punch' list: [start, end, zoom] in clip seconds",
+    "captions": "word-chunked, white bold with black outline, centred in the lower-middle safe area (Shorts UI-safe), the punchline line in yellow",
+    "punchline_emphasis": "duck the music to silence for 0.5s before 'Thanks for the delivery!'",
+    "export": {
+      "width": 1080,
+      "height": 1920,
+      "fps": 30,
+      "vcodec": "libx264",
+      "crf": 18,
+      "acodec": "aac",
+      "abitrate": "192k"
+    }
+  },
+  "thumbnail": {
+    "prompt": "Photorealistic vertical shot: Milo the orange tabby cat in black sunglasses and red hoodie in the foreground with a shocked open mouth, behind him a giant cracked-open watermelon with Ducky the white duck in sunglasses happily sitting on it. Bright saturated farm afternoon, cinematic, sharp focus on faces.",
+    "overlay_text": "HE STOLE IT 😳",
+    "cast": [
+      "milo",
+      "ducky"
+    ]
+  },
+  "metadata": {
+    "youtube": {
+      "title": "The Cat Planned the Perfect Watermelon Heist… 🍉😂 #shorts",
+      "description": "Milo had ONE job: Operation Watermelon. Then Bruno got excited, Rocky tried to be cool, and Chiku lost his mind. 😂\n\nWho really won this heist? Tell us in the comments 👇\n\n🐱 Milo, the boss | 🐶 Bruno, the best friend | 🐐 Rocky, the 'professional' | 🐔 Chiku, the drama | 🦆 Ducky, the lucky one\n\nNew funny animal shorts every day. Subscribe for the squad! 🐾\n\n#funnyanimals #funnycat #animalcomedy #shorts",
+      "hashtags": [
+        "#shorts",
+        "#funnyanimals",
+        "#funnycat",
+        "#animalcomedy",
+        "#funnyvideos"
+      ],
+      "tags": [
+        "funny animals",
+        "funny cat",
+        "talking animals",
+        "animal comedy",
+        "cat heist",
+        "funny goat",
+        "funny duck",
+        "golden retriever funny",
+        "watermelon",
+        "funny shorts",
+        "AI animals",
+        "cat and dog"
+      ],
+      "pinned_comment": "Be honest… whose fault was it? 🐶 Bruno, 🐐 Rocky or 🐔 Chiku? 👇",
+      "thumbnail_concept": "Milo shocked in the foreground, Ducky sitting on a cracked watermelon behind; big text 'HE STOLE IT 😳'"
+    },
+    "instagram": {
+      "caption": "Operation Watermelon: 0% success, 100% Ducky 🍉🦆\n\nMilo had the perfect plan… his team did not. 😂",
+      "hashtags": [
+        "#funnyanimals",
+        "#catsofinstagram",
+        "#funnycats",
+        "#animalcomedy",
+        "#reels",
+        "#funnyreels",
+        "#talkinganimals",
+        "#goat",
+        "#duck"
+      ],
+      "engagement_question": "Which one of your friends is Bruno? Tag them 😂"
+    },
+    "facebook": {
+      "caption": "The cat had a plan. The team had other ideas. 🍉😂",
+      "hashtags": [
+        "#funnyanimals",
+        "#funnycats",
+        "#animalcomedy",
+        "#reels"
+      ],
+      "engagement_question": "Who ruined the heist: Bruno, Rocky or Chiku?"
+    }
+  },
+  "ai_disclosure": "Contains realistic AI-generated animals. On YouTube, tick 'Altered or synthetic content' when uploading."
+}

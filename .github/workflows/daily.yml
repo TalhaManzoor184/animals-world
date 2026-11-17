@@ -1,0 +1,129 @@
+name: Daily autopilot
+
+# Every day (UTC times; PKT = UTC+5, US East = UTC-5/-4):
+#   13:17 UTC  → image post   (6:17 PM PKT  |  ~9 AM New York)
+#   15:41 UTC  → reel         (8:41 PM PKT  |  ~11 AM New York)
+#   21:23 UTC  → story        (2:23 AM PKT  |  ~5 PM New York, teases the reel)
+# Odd minutes on purpose: GitHub delays jobs scheduled on the hour.
+on:
+  schedule:
+    - cron: "17 13 * * *"
+    - cron: "41 15 * * *"
+    - cron: "23 21 * * *"
+  workflow_dispatch:
+    inputs:
+      what:
+        description: "What to run now"
+        type: choice
+        default: post
+        options: [post, reel, story, all]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-autopilot
+  cancel-in-progress: false
+
+jobs:
+  daily:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+      YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+      YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+      FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+      FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+      IG_USER_ID: ${{ secrets.IG_USER_ID }}
+      AUTO_PUBLISH: ${{ vars.AUTO_PUBLISH || 'true' }}
+      VIDEO_MODEL: ${{ vars.VIDEO_MODEL || 'veo-3.1-fast-generate-preview' }}
+      IMAGE_MODEL: ${{ vars.IMAGE_MODEL || 'gemini-3.1-flash-image' }}
+      TEXT_MODEL: ${{ vars.TEXT_MODEL || 'gemini-flash-latest' }}
+      DIALOGUE_MODE: ${{ vars.DIALOGUE_MODE || 'veo' }}
+      VIDEO_RES: ${{ vars.VIDEO_RES || '1080p' }}
+      GRAPH_VERSION: ${{ vars.GRAPH_VERSION || 'v24.0' }}
+    steps:
+      - name: Pick job
+        id: pick
+        run: |
+          case "${{ github.event.schedule }}" in
+            "17 13 * * *") W=post ;;
+            "41 15 * * *") W=reel ;;
+            "23 21 * * *") W=story ;;
+            *) W="${{ github.event.inputs.what }}" ;;
+          esac
+          echo "what=$W" >> "$GITHUB_OUTPUT"
+          echo "Running: $W"
+
+      - uses: actions/checkout@v4
+
+      # Generated media (images, clips, audio) is not committed; it is cached between runs
+      # so a retried reel resumes instead of paying for the same clips again.
+      - name: Restore media cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            episodes/*/06_Image_Assets
+            episodes/*/08_Video_Assets
+            episodes/*/09_Voice_Over
+            episodes/*/11_Final_Edited_Video
+            episodes/*/12_Thumbnail
+            daily/
+          key: media-${{ github.run_id }}
+          restore-keys: media-
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pipeline/requirements.txt
+
+      - name: Install
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          pip install -r pipeline/requirements.txt
+
+      - name: Run
+        run: python pipeline/daily.py ${{ steps.pick.outputs.what }}
+
+      - name: Prune old media
+        if: always()
+        run: |
+          find episodes daily -type f \( -name '*.mp4' -o -name '*.png' -o -name '*.jpg' -o -name '*.wav' \) \
+               -mtime +3 -not -path 'episodes/EP001_*' -delete 2>/dev/null || true
+
+      - name: Save media cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            episodes/*/06_Image_Assets
+            episodes/*/08_Video_Assets
+            episodes/*/09_Voice_Over
+            episodes/*/11_Final_Edited_Video
+            episodes/*/12_Thumbnail
+            daily/
+          key: media-${{ github.run_id }}
+
+      - name: Commit text outputs (episode json, docs, logs)
+        if: always()
+        run: |
+          git config user.name "studio-bot"
+          git config user.email "studio-bot@users.noreply.github.com"
+          git add -A episodes daily references config
+          git diff --cached --quiet || git commit -m "daily ${{ steps.pick.outputs.what }}: $(date -u +%F)"
+          git pull --rebase && git push
+
+      - name: Upload today's media for review/download
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-${{ steps.pick.outputs.what }}-${{ github.run_id }}
+          path: |
+            daily/
+            episodes/**/11_Final_Edited_Video/*.mp4
+            episodes/**/12_Thumbnail/*.jpg
+          retention-days: 14
+          if-no-files-found: ignore
