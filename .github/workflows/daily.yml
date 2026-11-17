@@ -154,9 +154,9 @@ jobs:
           git config user.name "studio-bot"
           git config user.email "studio-bot@users.noreply.github.com"
           echo "${{ steps.pick.outputs.what }} finished $(date -u +%FT%TZ) run ${{ github.run_id }}" >> runs/history.txt
-          git add -A episodes daily references config runs
+          git add -A   # .gitignore keeps generated media out of git
           git diff --cached --quiet || git commit -m "daily ${{ steps.pick.outputs.what }}: $(date -u +%F)"
-          git pull --rebase && git push
+          git pull --rebase --autostash origin main && git push origin HEAD:main
 
       - name: Upload today's media for review/download
         if: always()
