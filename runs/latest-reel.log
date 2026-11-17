@@ -1,0 +1,37 @@
+
+######## DAILY REEL (test-3) ########
+  Kaggle kernel status: complete
+  GPU: Tesla T4  rendered: 9/11  times: [537, 628, 630, 585, 628, 855, 845, 847, 848]
+  ⚠ shots [1, 4] failed ({'1': 'OutOfMemoryError: CUDA out of memory. Tried to allocate 742.00 MiB. GPU 0 has a total capacity of 14.56 GiB of which 414.81 MiB is free. Including non-PyTorch memory, this process has 14.15 GiB memory in use. Of the allocated memory 13.22 GiB is allocated by PyTorch, and 822.86 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)', '4': 'OutOfMemoryError: CUDA out of memory. Tried to allocate 310.00 MiB. GPU 0 has a total capacity of 14.56 GiB of which 258.81 MiB is free. Including non-PyTorch memory, this process has 14.31 GiB memory in use. Of the allocated memory 13.81 GiB is allocated by PyTorch, and 364.31 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)'}); editing without them
+  (no music file at assets/music/sneaky_pizzicato.mp3; exporting without music)
+✔ final video: episodes/EP001_operation_watermelon/11_Final_Edited_Video/EP001_operation_watermelon_final.mp4 (25.4s)
+# QC Report: EP001
+
+## Automated
+- [x] Video is vertical 1080x1920
+- [x] H.264 @ 30fps
+- [x] Duration 15–35s (25.4s)
+- [x] Has audio track
+- [x] Captions file exists
+- [x] Thumbnail exists
+- [x] YouTube title ≤100 chars (56)
+- [ ] Music file is from assets/music (royalty-free)  ← FIX
+
+## Manual review (you)
+- [ ] Opening 3 seconds hook works on mute
+- [ ] Comedy is understandable
+- [ ] Characters consistent across scenes
+- [ ] Accessories correct in every shot
+- [ ] Dialogue matches mouth movement
+- [ ] Audio clear, no garbled words
+- [ ] Captions readable and not under the Shorts UI
+- [ ] Ending lands the punchline
+- [ ] No animal shown harmed, frightened or in distress
+- [ ] AI-content disclosure ticked on upload
+
+Publishing is manual: nothing is uploaded by this pipeline.
+  • YouTube: secrets not set, skipping
+  • Instagram: secrets not set, skipping
+  ✔ Facebook reel (published): https://www.facebook.com/reel/28838162475883101
+
+✔ daily run complete

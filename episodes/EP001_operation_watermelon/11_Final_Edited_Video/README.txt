@@ -1,2 +1,3 @@
-NOT GENERATED YET.
-Run: python pipeline/studio.py edit EP001
+Generated files:
+- EP001_captions.ass (1 KB)
+- EP001_operation_watermelon_final.mp4 (20840 KB)

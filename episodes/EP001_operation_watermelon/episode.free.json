@@ -26,30 +26,6 @@
   },
   "scenes": [
     {
-      "n": 1,
-      "beat": "HOOK: the plan",
-      "cast": [
-        "milo"
-      ],
-      "clip_seconds": 4.375,
-      "use": [
-        0.0,
-        4.325
-      ],
-      "dialogue": [
-        {
-          "speaker": "milo",
-          "line": "Team. Operation Watermelon... starts now.",
-          "emotion": "whispered, dramatic, secret-agent",
-          "at": [
-            0.25,
-            4.025
-          ]
-        }
-      ],
-      "punch": []
-    },
-    {
       "n": 2,
       "beat": "HOOK: the plan",
       "cast": [
@@ -92,30 +68,6 @@
           "at": [
             0.25,
             2.125
-          ]
-        }
-      ],
-      "punch": []
-    },
-    {
-      "n": 4,
-      "beat": "SETUP: the professional",
-      "cast": [
-        "rocky"
-      ],
-      "clip_seconds": 4.708333333333333,
-      "use": [
-        0.0,
-        4.6
-      ],
-      "dialogue": [
-        {
-          "speaker": "rocky",
-          "line": "Step aside, amateurs. Watch a professional.",
-          "emotion": "deep, smug, dramatic",
-          "at": [
-            0.25,
-            4.3
           ]
         }
       ],

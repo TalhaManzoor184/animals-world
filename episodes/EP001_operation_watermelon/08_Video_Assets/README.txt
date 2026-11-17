@@ -1,2 +1,10 @@
-NOT GENERATED YET.
-Run: python pipeline/studio.py videos EP001
+Generated files:
+- scene_02.mp4 (139 KB)
+- scene_03.mp4 (83 KB)
+- scene_05.mp4 (434 KB)
+- scene_06.mp4 (576 KB)
+- scene_07.mp4 (297 KB)
+- scene_08.mp4 (378 KB)
+- scene_09.mp4 (202 KB)
+- scene_10.mp4 (147 KB)
+- scene_11.mp4 (429 KB)
