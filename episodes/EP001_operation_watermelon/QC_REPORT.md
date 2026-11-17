@@ -3,7 +3,7 @@
 ## Automated
 - [x] Video is vertical 1080x1920
 - [x] H.264 @ 30fps
-- [x] Duration 15–35s (25.4s)
+- [x] Duration 15–35s (34.3s)
 - [x] Has audio track
 - [x] Captions file exists
 - [x] Thumbnail exists
