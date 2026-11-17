@@ -1,0 +1,8 @@
+Setup check:
+  ✔ Facebook token: PAGE token, valid=True, expires=2027-01-16, scopes ok
+  ✔ Facebook page: Page 'Pure Quran Voice', linked Instagram: @NONE (-)
+  • YouTube: YT_* secrets not set
+Facebook draft reel test:
+  test clip: 2060 KB, 8s 1080x1920
+  ✔ Facebook reel (draft): https://www.facebook.com/reel/2420836012057596
+  → open Meta Business Suite → Content → Drafts to see it (not visible to the public)
