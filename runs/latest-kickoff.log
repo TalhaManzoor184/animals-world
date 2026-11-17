@@ -2,17 +2,8 @@
 ######## DAILY KICKOFF (test-1) ########
 → free kickoff for EP001: Operation Watermelon
   shot list: 11 shots, ~34.3s final runtime
+  ✔ job uploaded to kaggle.com/datasets/talhamanzoor225/animals-world-jobs (private)
+Kernel version 1 successfully pushed.  Please check progress at https://www.kaggle.com/code/talhamanzoor225/animals-world-render
+✔ Kaggle GPU render started: kaggle.com/code/talhamanzoor225/animals-world-render  (job EP001-1794909925)
 
-✖ kaggle datasets create -p /tmp/kds_30_8kbih --dir-mode zip failed:
-Traceback (most recent call last):
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/bin/kaggle", line 3, in <module>
-    from kaggle.cli import main
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/kaggle/__init__.py", line 3, in <module>
-    from kaggle.api.kaggle_api_extended import KaggleApi
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/kaggle/api/kaggle_api_extended.py", line 266, in <module>
-    from ..models.upload_file import UploadFile
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/kaggle/models/upload_file.py", line 22, in <module>
-    import six
-ModuleNotFoundError: No module named 'six'
-
-✖ failed: ['kickoff']
+✔ daily run complete
