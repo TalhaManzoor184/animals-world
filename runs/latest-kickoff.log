@@ -18,10 +18,10 @@ Traceback (most recent call last):
   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/google/genai/models.py", line 4573, in _generate_content
     response = self._api_client.request(
                ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/google/genai/_api_client.py", line 2369, in request
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/google/genai/_api_client.py", line 2374, in request
     response = self._request(http_request, http_options, stream=False)
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/google/genai/_api_client.py", line 2145, in _request
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/google/genai/_api_client.py", line 2150, in _request
     return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/tenacity/__init__.py", line 470, in __call__
@@ -44,7 +44,7 @@ Traceback (most recent call last):
   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/tenacity/__init__.py", line 473, in __call__
     result = fn(*args, **kwargs)
              ^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/google/genai/_api_client.py", line 2122, in _request_once
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/google/genai/_api_client.py", line 2127, in _request_once
     errors.APIError.raise_for_response(response)
   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/google/genai/errors.py", line 187, in raise_for_response
     cls.raise_error(response.status_code, response_json, response)
@@ -52,6 +52,6 @@ Traceback (most recent call last):
     raise ClientError(status_code, response_json, response)
 google.genai.errors.ClientError: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-flash-latest is not found for API version v1, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
 
-######## DAILY KICKOFF (2026-11-18) ########
+######## DAILY KICKOFF (2026-11-19) ########
 
 ✖ failed: ['kickoff']
